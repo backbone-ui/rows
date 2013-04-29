@@ -1,0 +1,11 @@
+.ui-rows {position:relative;min-height:50px;overflow:visible;}
+.ui-rows .add{width:auto;height:auto;background:#999999;padding:0px 5px;color:#ffffff;text-decoration:none;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;position:relative;cursor:pointer;text-align:center;font-weight:normal;font-size:.9em;line-height:200%;display:inline-block;width:30px;margin:0 5px;}
+.ui-rows .add:hover{background:#666666;color:#ffffff;}
+.ui-rows .row-new{padding:5px;}
+.ui-rows dl.row{padding:5px;margin:10px 5px 10px 0;background-color:#fff;border-radius:5px;overflow:hidden;}
+.ui-rows dl.row dt,.ui-rows dl.row dd{display:inline-block;width:45%;color:#333;font-size:.9em;}
+.ui-rows dl.row dt{font-weight:normal;}
+.ui-rows dl.row dd.del{position:absolute;right:0;width:auto;}
+.ui-rows dl.row dd.del a{color:#333;text-decoration:none;padding:5px 20px;}
+.ui-rows input[type="text"],.ui-rows select{width:45%;float:left;background-color:#fff;}
+.ui-rows select{margin-left:10px;}
