@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <title>Static example of rows</title>
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" href="../assets/css/backbone.ui.rows.css">
+    
+</head>
+<body>
+    
+<p>This is a static execution of the plugin. there's no connection with a data model. You can still delete items based on the class name.</p>
+
+<div id="rows" class="ui-rows">
+<div class="rows">
+    <dl class="row"><dt class="key">landscape</dt><dd class="value">flat</dd><dd class="del"><a href="#" >x</a></dd></dl>
+    <dl class="row"><dt class="key">nature</dt><dd class="value">green</dd><dd class="del"><a href="#" >x</a></dd></dl>
+    <dl class="row"><dt class="key">month</dt><dd class="value">january</dd><dd class="del"><a href="#" >x</a></dd></dl>
+</div>
+</div>
+
+<!-- Dependencies -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script> 
+
+<!-- Extension lib -->
+<script type="text/javascript" src="../assets/js/backbone.ui.rows.js"></script> 
+
+<script type="text/html" id="row-template">
+
+</script>
+    
+<script type="text/javascript">
+    
+// LOGIC
+var view = new Backbone.UI.Rows({
+        el : "#rows"
+});
+    
+</script>
+
+</body>
+</html>

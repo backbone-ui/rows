@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <title>Dynamic example</title>
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" href="../assets/css/backbone.ui.rows.css">
+    
+</head>
+<body>
+
+<p>In this example we're using an input field for the data.</p>
+    
+<div id="rows" class="ui-rows"></div>
+<input id="input-rows" type="hidden" value='[{ "label": "landscape", "value": "flat" }, { "label": "nature", "value": "green" }, { "label": "month", "value": "january" }]'>
+
+<!-- Dependencies -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.min.js"></script> 
+<script type="text/javascript" src="http://rawgithub.com/makesites/backbone-app/master/build/backbone.app-min.js"></script> 
+
+<!-- Extension lib -->
+<script type="text/javascript" src="../assets/js/backbone.ui.rows.js"></script> 
+
+<script type="text/javascript">
+
+	// LOGIC
+	var view = new Backbone.UI.Rows({
+			el : "#rows", 
+            field: "#input-rows", 
+            url: "../assets/html/rows.html"
+	});
+    
+</script>
+
+</body>
+</html>

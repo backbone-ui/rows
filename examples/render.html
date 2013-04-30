@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>Static example of rows</title>
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" href="../assets/css/backbone.ui.rows.css">
+    
+</head>
+<body>
+    
+<p>An example with a custom render method that appends one row at a time.</p>
+
+<div id="rows" class="ui-rows">
+<div class="rows"></div>
+<div class="row-new">
+    <input type="text" name="label" placeholder="insert new...">
+    <input type="text" name="value" placeholder="enter value...">
+    <a class="add"> + </a> 
+</div>
+</div>
+
+<!-- Dependencies -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script> 
+
+<!-- Extension lib -->
+<script type="text/javascript" src="../assets/js/backbone.ui.rows.js"></script> 
+
+<script type="text/html" id="row-template">
+<dl class="row"><dt class="key"><%- row.label %></dt><dd class="value"><%- row.value %></dd><dd class="del"><a href="#" >x</a></dd></dl>
+</script>
+    
+<script type="text/javascript">
+    
+    // using undescore template
+    _.templateSettings.variable = "row";
+    
+    // LOGIC
+    var AppRows = Backbone.UI.Rows.extend({
+        
+        render: function(){ 
+            // get the data of the last row...
+            var data = this.data.at(this.data.length - 1);
+            var html = _.template( this.options.template, data.toJSON() );
+            $(this.el).find(".rows").append( html );
+        }
+        
+    });
+    
+    var view = new AppRows({
+        el : "#rows",
+        template: $("#row-template").html()
+    });
+    
+</script>
+
+</body>
+</html>
