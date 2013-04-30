@@ -1,9 +1,10 @@
 <div class="rows">
 {{#each . }}
-    <p>{{label}}</p>
+    <dl class="row" data-id="{{id}}"><dt>{{label}}</dt><dd>{{value}}</dd><dd class="del"><a href="#" >x</a></dd></dl>
 {{/each}}
 </div>
 <div class="row-new">
-    <input type="text" placeholder="insert new...">
+    <input type="text" name="label" placeholder="insert new...">
+    <input type="text" name="value" placeholder="enter value...">
     <a class="add"> + </a> 
 </div>
