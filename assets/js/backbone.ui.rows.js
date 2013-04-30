@@ -8,12 +8,12 @@
 
 (function(_, Backbone) {
 	
-	// fallbacks
+    // fallbacks
 	if( _.isUndefined( Backbone.UI ) ) Backbone.UI = {};
 	// Support backbone app (if available)
 	var View = ( typeof APP != "undefined" && !_.isUndefined( APP.View) ) ? APP.View : Backbone.View;
     
-	Backbonone.UI.Rows = APP.View.extend({
+	Backbone.UI.Rows = View.extend({
 		//el : ".backend-container", 
 		events : {
 			"click .del a" : "deleteRow",
@@ -60,12 +60,12 @@
 			var rows = $(this.el).find(".rows");
 			// find the title of the value
 			var title = "";
-			for( var i in stores ){
-				if( stores[i].id == value) {
-					title = stores[i].title;
-					break;
-				}
-			}
+			//for( var i in stores ){
+			//	if( stores[i].id == value) {
+			//		title = stores[i].title;
+			//		break;
+			//	}
+			//}
 			// better way to do this?
 			$(template).find(".key").html( key ).closest(".row").find(".value").attr("data-id", value).html( title ).closest(".row").appendTo( rows );
 		}, 
@@ -93,5 +93,6 @@
 			this.$field.val( value );
 		}
 	});
-	
+    
+    
 })(this._, this.Backbone);
