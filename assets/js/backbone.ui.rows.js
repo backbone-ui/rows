@@ -14,96 +14,129 @@
 	var View = ( typeof APP != "undefined" && !_.isUndefined( APP.View) ) ? APP.View : Backbone.View;
     
 	Backbone.UI.Rows = View.extend({
+        
+        options: {
+            field: false,
+            itemEl: false
+        }, 
+        
 		//el : ".backend-container", 
 		events : {
-			"click .del a" : "_deleteRow",
-			"click .add" : "_newRow"
+			"click .del a" : "_deleteRow", 
+			"click .add" : "_addRow" 
 			//"change .row-new select" : "_newRow"
 		},
+        
 		initialize: function( options ){
 			//fallbacks
 			options || (options = {});
-			_.bindAll( this, 'render', '_newRow', '_addRow', '_deleteRow', '_updateField');
-			//
-			this.$field = options.field || false;
-			// to be added in a template file...
-			this.views = {
-				"row" : '<dl class="row"><dt class="key"></dt><dd class="value"></dd><dd class="del"><a href="#" >x</a></dd></dl>'
-			};
-			
-			this.render();
-			//return APP.View.prototype.initialize.apply( this, options );
+			_.bindAll( this, 'render', 'addRow', 'deleteRow', '_addRow', '_deleteRow', '_newRow', '_parseField', '_updateField');
+			// always create the data
+            this.data = new Rows();
+            // assume the right structure
+            if( options.data ) this.data.add( options.data );
+            // 
+            this.$field = ( options.field ) ? $(options.field) : false;
+            // 
+            if( this.$field ) this._parseField();
+            // bindings
+            this.data.on("add", this.render );
+			this.data.on("remove", this.render );
+			return View.prototype.initialize.call( this, options );
 		},
-		render: function(){
-			if( !this.$field ) return;
-			// get the tags from the input field
-			var field = this.$field.val() || false;
-			if(!field) return;
-			var rows = JSON.parse( this.$field.val() );
-			// 
-			for(var key in rows){
-				this._addRow( key, rows[key] );
-			}
-		}, 
-		_newRow: function( e ){
+        
+        // Public functions
+        
+        // override with your own method for additional clean up...
+        addRow: function( item ){
+            return item;
+        },
+        
+        deleteRow: function( e ){
+            return item;
+        },
+        
+        // Private functions
+        
+		_addRow: function( e ){
 			var $el = $(this.el).find(".row-new");
-			var key = $el.find("input").val();
-			var value = $el.find("select").val();
-			this._addRow(key,value);
-			this._updateField();
-			// reset input fields
+            var item = {};
+            
+            $el.find("input,select").each(function(){
+                var key = $(this).attr("name");
+                var value = $(this).val();
+                item[key] = value;
+            });
+            // further modifications (by the app)
+            item = this.addRow( item );
+            this._newRow( item );
+            // update data
+            // reset input fields
 			$el.find("input").val("");
 			$el.find("select").val(0);
 		}, 
-		_addRow: function( key, value ){
-			var template = this.views.row;
-			var rows = $(this.el).find(".rows");
-			// find the title of the value
-			var title = "";
-			//for( var i in stores ){
-			//	if( stores[i].id == value) {
-			//		title = stores[i].title;
-			//		break;
-			//	}
-			//}
-			// better way to do this?
-			$(template).find(".key").html( key ).closest(".row").find(".value").attr("data-id", value).html( title ).closest(".row").appendTo( rows );
-		}, 
+        
 		_deleteRow: function( e ){
 			e.preventDefault();
 			// find tag
 			var tag = $(e.target).closest(".row");
 			// remove tag
 			$(this.el).find(tag).remove();
+            // update data
+            var id = tag.attr("data-id")
+            if( id ){
+                this.data.remove( id );
+            }
 			// update input field
 			this._updateField();
-			
 		}, 
+        
+        // custom method to "hack in" a new row when full page rendering is not 
+		_newRow: function( item ){
+            // update data
+            this.data.add(item);
+			this._updateField();
+		}, 
+        
+        _parseField: function(){
+            if( !this.$field ) return;
+            var rows = this.$field.val() || false;
+            if(!rows || _.isEmpty(rows)) return;
+            var models = JSON.parse( rows );
+            this.data.add( models );
+        }, 
+        
 		_updateField: function(){
-			if( !this.$field ) return;
-			var rows = {};
-			$(this.el).find(".row").each(function(){
-				var key = $(this).find(".key").html();
-				var value = $(this).find(".value").attr('data-id');
-				rows[key] = value;
-			});
-			// make a string from the tags
-			var value = JSON.stringify( rows );
+            if( !this.$field ) return;
+			var data = this.data.toJSON();
+            // cleanup the set ids
+            data = _.map( data, function( row ){
+                    delete row.id
+                    return row;
+                });
+            console.log( data );
+            // make a string from the data
+			var rows = JSON.stringify( data );
 			// update input (hidden) field
-			this.$field.val( value );
-		}
+			this.$field.val( rows );
+		} 
+        
 	});
     
-    
+    // Internal data containers
     var Row = Backbone.Model.extend({
         defaults :{
-            label: "",
-            value: ""
+            // you define the model structure with the objects you are passing...
+        },
+        initialize: function( model ){
+            // use cid's for ids
+            if( !model.id )
+                this.set({ id : this.cid });
         }
     });
     
     Rows = Backbone.Collection.extend({
-        model: Row
+        model: Row, 
     });
     
     
