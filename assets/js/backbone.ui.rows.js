@@ -16,14 +16,14 @@
 	Backbone.UI.Rows = View.extend({
 		//el : ".backend-container", 
 		events : {
-			"click .del a" : "deleteRow",
-			"click .add" : "newRow"
-			//"change .row-new select" : "newRow"
+			"click .del a" : "_deleteRow",
+			"click .add" : "_newRow"
+			//"change .row-new select" : "_newRow"
 		},
 		initialize: function( options ){
 			//fallbacks
 			options || (options = {});
-			_.bindAll( this, 'render', 'newRow', 'addRow', 'deleteRow', 'updateField');
+			_.bindAll( this, 'render', '_newRow', '_addRow', '_deleteRow', '_updateField');
 			//
 			this.$field = options.field || false;
 			// to be added in a template file...
@@ -42,20 +42,20 @@
 			var rows = JSON.parse( this.$field.val() );
 			// 
 			for(var key in rows){
-				this.addRow( key, rows[key] );
+				this._addRow( key, rows[key] );
 			}
 		}, 
-		newRow: function( e ){
+		_newRow: function( e ){
 			var $el = $(this.el).find(".row-new");
 			var key = $el.find("input").val();
 			var value = $el.find("select").val();
-			this.addRow(key,value);
-			this.updateField();
+			this._addRow(key,value);
+			this._updateField();
 			// reset input fields
 			$el.find("input").val("");
 			$el.find("select").val(0);
 		}, 
-		addRow: function( key, value ){
+		_addRow: function( key, value ){
 			var template = this.views.row;
 			var rows = $(this.el).find(".rows");
 			// find the title of the value
@@ -69,17 +69,17 @@
 			// better way to do this?
 			$(template).find(".key").html( key ).closest(".row").find(".value").attr("data-id", value).html( title ).closest(".row").appendTo( rows );
 		}, 
-		deleteRow: function( e ){
+		_deleteRow: function( e ){
 			e.preventDefault();
 			// find tag
 			var tag = $(e.target).closest(".row");
 			// remove tag
 			$(this.el).find(tag).remove();
 			// update input field
-			this.updateField();
+			this._updateField();
 			
 		}, 
-		updateField: function(){
+		_updateField: function(){
 			if( !this.$field ) return;
 			var rows = {};
 			$(this.el).find(".row").each(function(){
@@ -95,14 +95,14 @@
 	});
     
     
-    var Row = Backbone.Model({
+    var Row = Backbone.Model.extend({
         defaults :{
             label: "",
             value: ""
         }
     });
     
-    Rows = Backbone.Collection({
+    Rows = Backbone.Collection.extend({
         model: Row
     });
     
