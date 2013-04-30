@@ -95,4 +95,16 @@
 	});
     
     
+    var Row = Backbone.Model({
+        defaults :{
+            label: "",
+            value: ""
+        }
+    });
+    
+    Rows = Backbone.Collection({
+        model: Row
+    });
+    
+    
 })(this._, this.Backbone);
