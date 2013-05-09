@@ -132,6 +132,10 @@
             // use cid's for ids
             if( !model.id )
                 this.set({ id : this.cid });
+        },
+        
+        output: function(){
+            return this.toJSON();
         }
     });
     
